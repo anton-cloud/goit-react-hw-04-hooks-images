@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, Component} from 'react'
 import PropTypes from 'prop-types';
 import {createPortal} from 'react-dom'
 import { ModalStyled } from './ModalStyled';
@@ -9,8 +9,12 @@ const Modal = ({onCloseModal, children}) => {
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
+    const body = document.querySelector("body");
+    body.style.overflow = "hidden";
   return () => {
     window.removeEventListener('keydown', handleKeyDown);
+    const body = document.querySelector("body");
+    body.style.overflow = "auto";
     }
   }, [])
 
@@ -50,11 +54,14 @@ export default Modal;
 
 //   componentDidMount() {
 //     window.addEventListener('keydown', this.handleKeyDown);
+//     const body = document.querySelector("body");
+//     body.style.overflow = "hidden";
 //   }
 
 //   componentWillUnmount() {
 //     window.removeEventListener('keydown', this.handleKeyDown);
-    
+//     const body = document.querySelector("body");
+//     body.style.overflow = "auto";
 //   }
 
 //   handleKeyDown = (e) => {
