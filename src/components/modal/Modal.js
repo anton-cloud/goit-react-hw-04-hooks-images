@@ -11,10 +11,12 @@ const Modal = ({onCloseModal, children}) => {
     window.addEventListener('keydown', handleKeyDown);
     const body = document.querySelector("body");
     body.style.overflow = "hidden";
+    body.style.position = "fixed";
   return () => {
     window.removeEventListener('keydown', handleKeyDown);
     const body = document.querySelector("body");
     body.style.overflow = "auto";
+    body.style.position = "relative";
     }
   }, [])
 

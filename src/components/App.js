@@ -1,4 +1,4 @@
-import { useState, useEffect, memo} from "react";
+import { useState, useEffect, memo, Component} from "react";
 import ImageGallery from "./imageGallery/ImageGallery";
 import Searchbar from "./searchbar/Searchbar";
 import { fetchImages } from "./services/api";
@@ -45,7 +45,7 @@ const App = () => {
       top: document.documentElement.scrollHeight,
       behavior: 'smooth',
     }),
-      setIsLoading(false)
+      setIsLoading(false),
     )
   }
 

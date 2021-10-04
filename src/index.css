@@ -18,7 +18,6 @@ body {
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
-  position: fixed;
   width: 100%;
   overflow: auto;
 }
