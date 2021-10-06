@@ -6,8 +6,8 @@ import "./index.css";
 
 ReactDOM.render(
   <>
-    <GlobalStyles/>
-    <App/>
+    <GlobalStyles />
+    <App />
   </>,
   document.getElementById("root")
 );

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const ModalStyled = styled.div `
+export const ModalStyled = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -12,9 +12,8 @@ export const ModalStyled = styled.div `
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1200;
 
-.Modal {
-  max-width: calc(100vw - 48px);
-  max-height: calc(100vh - 24px);
-}
-
-`
+  .Modal {
+    max-width: calc(100vw - 48px);
+    max-height: calc(100vh - 24px);
+  }
+`;

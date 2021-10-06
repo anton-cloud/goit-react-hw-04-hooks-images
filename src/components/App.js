@@ -1,77 +1,87 @@
-import { useState, useEffect, memo, Component} from "react";
+import { useState, useEffect } from "react";
 import ImageGallery from "./imageGallery/ImageGallery";
 import Searchbar from "./searchbar/Searchbar";
-import { fetchImages } from "./services/api";
-import { AppStyled } from './AppStyled.js';
-import Button from './button/Button'
+import { fetchImages } from "../services/api";
+import { AppStyled } from "./AppStyled.js";
+import Button from "./button/Button";
 import Modal from "./modal/Modal";
 import LoaderComponent from "./loader/LoaderComponent";
 
 const App = () => {
-
-  const [searchImg, setSearchImg] = useState('');
+  const [searchImg, setSearchImg] = useState("");
   const [images, setImages] = useState([]);
-  const [largeImage, setLargeImage] = useState('');
-  const [error, setError] = useState('');
+  const [largeImage, setLargeImage] = useState("");
+  const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (!searchImg) {return};
+    if (!searchImg) {
+      return;
+    }
     setIsLoading(true);
-    fetchImages(searchImg).then(result => {
-      setImages(result.data.hits);
-      setPage(prev => prev + 1);
-    })
-    .catch((error) => setError(error))
-    .finally(() => setIsLoading(false))
+    fetchImages(searchImg)
+      .then((result) => {
+        setImages(result.data.hits);
+        setPage((prev) => prev + 1);
+      })
+      .catch((error) => setError(error))
+      .finally(() => setIsLoading(false));
   }, [searchImg]);
 
   const onSubmit = (searchImg) => {
-    if(searchImg !== '')
-    setSearchImg(searchImg)
-  }
+    if (searchImg !== "") setSearchImg(searchImg);
+  };
 
   const onLoadMore = () => {
     setIsLoading(true);
-    fetchImages(searchImg, page).then(result => {
-      setImages(prev => [...prev, ...result.data.hits]);
-      setPage(prev => prev + 1);
-    })
-    .catch((error) => setError(error))
-    .finally(() => 
-      window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    }),
-      setIsLoading(false),
-    )
-  }
+    fetchImages(searchImg, page)
+      .then((result) => {
+        setImages((prev) => [...prev, ...result.data.hits]);
+        setPage((prev) => prev + 1);
+      })
+      .catch((error) => setError(error))
+      .finally(
+        () =>
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: "smooth",
+          }),
+        setIsLoading(false)
+      );
+  };
 
   const onOpenModal = (largeImage) => {
     setShowModal(true);
     setLargeImage(largeImage);
-  }
+  };
 
   const onCloseModal = () => {
     setShowModal(false);
-  }
+  };
 
   return (
-      <AppStyled>
-        <Searchbar onSubmit={onSubmit}/>
-        {isLoading ? <LoaderComponent/> : <ImageGallery images={images} onOpenModal = {onOpenModal}/>}
-        {Number.isInteger(images.length / 12) && images.length > 0 && <Button onLoadMore={onLoadMore}/>}
-        {showModal && 
-        <Modal onCloseModal = {onCloseModal}>
-          <img src={largeImage} alt="img"/>
-        </Modal>}
-      </AppStyled>    
+    <AppStyled>
+      <Searchbar onSubmit={onSubmit} />
+      {isLoading ? (
+        <LoaderComponent />
+      ) : (
+        <ImageGallery images={images} onOpenModal={onOpenModal} />
+      )}
+      {Number.isInteger(images.length / 12) && images.length > 0 && (
+        <Button onLoadMore={onLoadMore} />
+      )}
+      {showModal && (
+        <Modal onCloseModal={onCloseModal}>
+          <img src={largeImage} alt="img" />
+        </Modal>
+      )}
+    </AppStyled>
   );
-}
+};
 
-export default memo(App);
+export default App;
 
 // const initialState = {
 //   searchImg: '',
@@ -84,15 +94,15 @@ export default memo(App);
 // }
 
 // class App extends Component {
-//   state = { 
+//   state = {
 //     ...initialState
 //    }
-  
+
 //   componentDidUpdate(prevProps, prevState) {
 //     if(prevState.searchImg !== this.state.searchImg) {
 //       this.setState({isLoading: true})
 //       fetchImages(this.state.searchImg).then(result => this.setState(prev => ({
-//        images: result.data.hits, 
+//        images: result.data.hits,
 //        page: prev.page + 1,
 //       })))
 //       .catch((error) => this.state({
@@ -115,12 +125,12 @@ export default memo(App);
 //     this.setState({isLoading: true})
 //     fetchImages(this.state.searchImg, this.state.page).then(result => this.setState(prev => ({
 //       images: [...prev.images, ...result.data.hits],
-//       page: prev.page + 1,  
+//       page: prev.page + 1,
 //     })))
 //     .catch((error) => this.setState({
 //       error,
 //     }))
-//     .finally(() => 
+//     .finally(() =>
 //       window.scrollTo({
 //       top: document.documentElement.scrollHeight,
 //       behavior: 'smooth',
@@ -151,11 +161,11 @@ export default memo(App);
 //         <Searchbar onSubmit={this.onSubmit}/>
 //         {isLoading ? <LoaderComponent/> : <ImageGallery images={images} onOpenModal = {this.onOpenModal}/>}
 //         {Number.isInteger(images.length / 12) && images.length > 0 && <Button onLoadMore={this.onLoadMore}/>}
-//         {showModal && 
+//         {showModal &&
 //         <Modal onCloseModal = {this.onCloseModal}>
 //           <img src={largeImage} alt="img"/>
 //         </Modal>}
-//       </AppStyled>    
+//       </AppStyled>
 //     );
 //   }
 // }

@@ -1,6 +1,6 @@
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
-export default createGlobalStyle `
+export default createGlobalStyle`
   html {
   box-sizing: border-box;
   width: 100vw;

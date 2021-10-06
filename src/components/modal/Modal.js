@@ -1,46 +1,44 @@
-import {useEffect, Component} from 'react'
-import PropTypes from 'prop-types';
-import {createPortal} from 'react-dom'
-import { ModalStyled } from './ModalStyled';
+import { useEffect, Component } from "react";
+import PropTypes from "prop-types";
+import { createPortal } from "react-dom";
+import { ModalStyled } from "./ModalStyled";
 
 const modalRoot = document.querySelector("#modal-root");
+const modalScroll = (overflowValue, positionValue) => {
+  const body = document.querySelector("body");
+  body.style.overflow = overflowValue;
+  body.style.position = positionValue;
+};
 
-const Modal = ({onCloseModal, children}) => {
-
+const Modal = ({ onCloseModal, children }) => {
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    const body = document.querySelector("body");
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-    const body = document.querySelector("body");
-    body.style.overflow = "auto";
-    body.style.position = "relative";
-    }
-  }, [])
-
+    window.addEventListener("keydown", handleKeyDown);
+    modalScroll("hidden", "fixed");
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      modalScroll("auto", "relative");
+    };
+  }, []);
 
   const handleKeyDown = (e) => {
-    if(e.code === 'Escape') {
-      onCloseModal()
+    if (e.code === "Escape") {
+      onCloseModal();
     }
-  }
+  };
 
   const handleBackdropClick = (e) => {
-    if(e.currentTarget === e.target) {
-      onCloseModal()
+    if (e.currentTarget === e.target) {
+      onCloseModal();
     }
-  }
+  };
 
-  return createPortal (
-            <ModalStyled onClick = {handleBackdropClick}>
-              <div className="Modal">
-                {children}
-              </div>
-            </ModalStyled>, modalRoot
-          );
-}
+  return createPortal(
+    <ModalStyled onClick={handleBackdropClick}>
+      <div className="Modal">{children}</div>
+    </ModalStyled>,
+    modalRoot
+  );
+};
 
 Modal.propTypes = {
   onCloseModal: PropTypes.func,
@@ -93,6 +91,5 @@ export default Modal;
 //   onCloseModal: PropTypes.func,
 //   children: PropTypes.node,
 // };
-
 
 // export default Modal;
